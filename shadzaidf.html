@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Reads - Premium E-books</title>
+
+    <style>
+        /* Basic Setup & Fonts */
+        body {
+            font-family: 'Georgia', serif; /* An elegant serif font */
+            margin: 0;
+            padding: 0;
+            background-color: #f8f5f1; /* Soft cream background */
+            color: #36454F; /* Charcoal gray text */
+            line-height: 1.6;
+            scroll-behavior: smooth; /* Smooth scrolling for navigation */
+        }
+
+        /* Container for content centering */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #5D4037; /* Dark brown header */
+            color: #fff;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: sticky; /* Makes header stick to the top when scrolling */
+            top: 0;
+            z-index: 1000; /* Ensures header is above other content */
+        }
+
+        header .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            color: #FFD700; /* Golden yellow for brand name */
+            font-family: 'Playfair Display', serif; /* Another elegant font for headings */
+            letter-spacing: 1px;
+        }
+
+        header nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        header nav ul li {
+            margin-left: 30px;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease, transform 0.3s ease; /* Smooth hover effects */
+            position: relative; /* For the underline effect */
+        }
+
+        header nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #FFD700;
+            left: 0;
+            bottom: -5px;
+            transition: width 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #FFD700;
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        header nav ul li a:hover::after {
+            width: 100%; /* Underline expands on hover */
+        }
+
+        /* Hero Section (Main Banner) */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1549673998-fd069f257a62?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'); /* Beautiful background image */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            text-align: center;
+            padding: 150px 20px;
+            margin-bottom: 50px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1.5s ease-out; /* Fade-in animation */
+        }
+
+        .hero h2 {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow for readability */
+            animation: slideInUp 1s ease-out; /* Slide-up animation */
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: slideInUp 1.2s ease-out;
+        }
+
+        .hero button {
+            background-color: #FFD700; /* Golden yellow button */
+            color: #5D4037; /* Dark brown text on button */
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px; /* Pill shape */
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            animation: slideInUp 1.4s ease-out;
+        }
+
+        .hero button:hover {
+            background-color: #e6c200; /* Slightly darker gold on hover */
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Book List Section */
+        .book-list {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .book-list h3 {
+            font-size: 3.5rem;
+            color: #5D4037;
+            margin-bottom: 60px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid for books */
+            gap: 40px; /* Space between book cards */
+            justify-content: center;
+        }
+
+        /* Book Card Styles */
+        .book-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            overflow: hidden; /* Ensures image corners are rounded */
+        }
+
+        .book-card:hover {
+            transform: translateY(-10px); /* More pronounced lift effect on hover */
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-card img {
+            max-width: 100%;
+            height: 250px; /* Fixed height for consistent look of book covers */
+            object-fit: cover; /* Ensures image covers area without distortion */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .book-card:hover img {
+            transform: scale(1.05); /* Slight zoom on image hover */
+        }
+
+        .book-card h4 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #5D4037;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .book-card p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .book-card .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #D32F2F; /* Red for price */
+            display: block; /* Ensures price is on a new line */
+            margin-top: 15px;
+        }
+
+        /* About Us Section */
+        .about-us-section {
+            padding: 60px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .about-us-section h2 {
+            font-size: 3.2rem;
+            color: #5D4037;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .about-us-section p {
+            font-size: 1.2rem;
+            color: #4A4A4A;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+        }
+
+        .developer-info {
+            margin-top: 40px;
+            background-color: #f0f0f0;
+            padding: 30px;
+            border-radius: 8px;
+            display: inline-block; /* To center the block effectively */
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .developer-info h3 {
+            font-size: 2.2rem;
+            color: #5D4037;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .developer-info .dev-name {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        .developer-info .dev-role {
+            font-size: 1.1rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 60px;
+            font-size: 0.95rem;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        footer strong {
+            color: #FFD700;
+        }
+
+        footer .social-links {
+            margin-top: 15px;
+        }
+
+        footer .social-links a {
+            color: #fff;
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-links a:hover {
+            color: #FFD700;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Responsive Design (for smaller screens) */
+        @media (max-width: 768px) {
+            header .nav-content {
+                flex-direction: column; /* Stack navigation items vertically */
+            }
+            header nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap; /* Allow navigation items to wrap */
+                justify-content: center;
+            }
+            header nav ul li {
+                margin: 0 10px 10px 10px;
+            }
+            .hero h2 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .book-grid {
+                grid-template-columns: 1fr; /* Single column layout for books */
+            }
+            .book-card {
+                width: 90%; /* Adjust width for mobile view */
+                margin: 0 auto; /* Center cards */
+            }
+            .about-us-section h2 {
+                font-size: 2.5rem;
+            }
+            .about-us-section p {
+                font-size: 1rem;
+            }
+            .developer-info h3 {
+                font-size: 1.8rem;
+            }
+            .developer-info .dev-name {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+    </head>
+<body>
+
+    <header>
+        <div class="container nav-content">
+            <h1>Aura Reads</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#books">Books</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#signup">Sign Up</a></li>
+                    <li><a href="#login">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="hero">
+            <h2>Discover Your Next Literary Journey</h2>
+            <p>Premium E-books for the Discerning Reader</p>
+            <button onclick="location.href='#books'">Explore Books</button>
+        </section>
+
+        <section id="books" class="book-list">
+            <h3>Our Curated Collection</h3>
+            <div class="book-grid">
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abdcd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Book Cover 1">
+                    <h4>The Enigmatic Echo</h4>
+                    <p>A thrilling mystery woven with ancient secrets and modern suspense.</p>
+                    <span class="price">$12.99</span>
+                </div>
+
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abdcd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Book Cover 2">
+                    <h4>Whispers of the Past</h4>
+                    <p>A historical fiction novel that transports you to a forgotten era.</p>
+                    <span class="price">$14.50</span>
+                </div>
+
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abdcd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Book Cover 3">
+                    <h4>Zenith of Dreams</h4>
+                    <p>An inspiring self-help guide to unlocking your true potential.</p>
+                    <span class="price">$13.75</span>
+                </div>
+
+                <div class="book-card">
+                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abdcd?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Book Cover 4">
+                    <h4>The Cosmic Dance</h4>
+                    <p>Explore the wonders of the universe through a poetic scientific lens.</p>
+                    <span class="price">$10.99</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="about-us-section">
+            <h2>About Aura Reads</h2>
+            <p>
+                Welcome to Aura Reads, your premier destination for carefully curated, high-quality e-books.
+                We believe in the transformative power of literature and strive to bring you a collection that
+                inspires, educates, and entertains. Our mission is to provide an aesthetic and seamless reading
+                experience, connecting readers with stories that resonate deeply.
+            </p>
+            <p>
+                At Aura Reads, we are passionate about books and committed to offering a selection that stands
+                out for its quality and appeal. We continuously seek out captivating narratives and insightful
+                works to enrich your digital library.
+            </p>
+
+            <div class="developer-info">
+                <h3>Meet the Developer</h3>
+                <p class="dev-name">Shad Zaid Khan</p>
+                <p class="dev-role">
+                    A passionate creator and architect behind the digital experience of Aura Reads.
+                    Dedicated to crafting intuitive and beautiful web applications.
+                </p>
+            </div>
+        </section>
+
+        <section id="signup" style="padding: 100px 0; text-align: center; background-color: #f2f2f2; margin-bottom: 50px; border-radius: 10px;">
+            <h2 style="font-size: 2.5rem; color: #5D4037; font-family: 'Playfair Display', serif;">Sign Up Today!</h2>
+            <p style="font-size: 1.1rem; color: #666; margin-
